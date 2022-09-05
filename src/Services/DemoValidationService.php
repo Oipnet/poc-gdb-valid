@@ -33,8 +33,13 @@ final class DemoValidationService implements ValidationServiceInterface
         return (new DemoTmp())->hydrate($entity);
     }
 
+    /**
+     * @param DemoTmp $demoTmp
+     * @return Demo
+     */
     public function validate(Hydratable $demoTmp)
     {
+        /** @var  $errors */
         $errors = $this->validator->validate($demoTmp, null, ['Default']);
 
         if (!$errors->count()) {
@@ -42,6 +47,8 @@ final class DemoValidationService implements ValidationServiceInterface
             $demo->hydrate($demoTmp);
 
             $demo->setDemoTmp(null);
+
+            $this->em->remove($demoTmp);
 
             return $demo;
         }

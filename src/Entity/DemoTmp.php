@@ -30,7 +30,7 @@ class DemoTmp implements Hydratable
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $fooErreurMessage = null;
 
-    #[ORM\OneToOne(mappedBy: 'demoTmp', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'demoTmp', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private ?Demo $demo = null;
 
     public function getId(): ?int
@@ -107,7 +107,7 @@ class DemoTmp implements Hydratable
         $this->setFoo($data->getFoo());
         $this->setFooEnErreur(false);
         $this->setFooErreurMessage(null);
-        
+
         $this->setDemo($data);
 
         return $this;

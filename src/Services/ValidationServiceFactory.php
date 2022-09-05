@@ -7,15 +7,15 @@ use App\Exceptions\ValidationServiceNotFound;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class ValidationServiceFactory
+final class ValidationServiceFactory
 {
     private array $services = [
         Demo::class => DemoValidationService::class
     ];
 
     public function __construct(
-        private ValidatorInterface $validator,
-        private EntityManagerInterface $em
+        private readonly ValidatorInterface $validator,
+        private readonly EntityManagerInterface $em
     )
     {
     }

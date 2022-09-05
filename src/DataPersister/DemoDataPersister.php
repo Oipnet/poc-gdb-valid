@@ -8,7 +8,7 @@ use App\Entity\Demo;
 use App\Services\ValidationServiceFactory;
 use Doctrine\ORM\EntityManagerInterface;
 
-class DemoDataPersister implements ContextAwareDataPersisterInterface
+final class DemoDataPersister implements ContextAwareDataPersisterInterface
 {
     public function __construct(
         private ValidationServiceFactory $validationServiceFactory,
