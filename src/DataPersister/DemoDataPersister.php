@@ -11,9 +11,9 @@ use Doctrine\ORM\EntityManagerInterface;
 final class DemoDataPersister implements ContextAwareDataPersisterInterface
 {
     public function __construct(
-        private ValidationServiceFactory $validationServiceFactory,
-        private DataPersisterInterface $decorated,
-        private EntityManagerInterface $em
+        private readonly ValidationServiceFactory $validationServiceFactory,
+        private readonly DataPersisterInterface   $decorated,
+        private readonly EntityManagerInterface $em
     )
     {
     }
@@ -41,6 +41,5 @@ final class DemoDataPersister implements ContextAwareDataPersisterInterface
 
     public function remove($data, array $context = [])
     {
-        // TODO: Implement remove() method.
     }
 }

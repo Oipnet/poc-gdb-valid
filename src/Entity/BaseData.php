@@ -8,4 +8,5 @@ interface BaseData
     public function getTmp(): ?TempData;
     public function setTmp(?TempData $temp): self;
     public function hydrate(TempData $data): self;
+    public function getFields(): array;
 }

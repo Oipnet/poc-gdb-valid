@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Dto\Field;
 use App\Repository\DemoRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -52,16 +53,27 @@ class Demo implements BaseData
 
     public function reset(): self
     {
-        $this->setFoo('');
+        foreach ($this->getFields() as $field) {
+            $this->{$field->getSetter()}($field->getDefault());
+        }
 
         return $this;
     }
 
     public function hydrate(TempData $data): self
     {
-        $this->setFoo($data->getFoo());
+        foreach ($this->getFields() as $field) {
+            $this->{$field->getSetter()}($data->{$field->getGetter()}());
+        }
 
         return $this;
+    }
+
+    public function getFields(): array
+    {
+        return [
+            'foo' => new Field('getFoo', 'setFoo', '')
+        ];
     }
 
     public function getTmp(): ?TempData
