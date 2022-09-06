@@ -21,6 +21,8 @@ abstract class ValidationService
 
     public function validate(TempData $tempData, array $groups = ['Default']): BaseData
     {
+        $tempData->cleanErrors();
+
         /** @var  $errors */
         $errors = $this->validator->validate($tempData, null, $groups);
 
@@ -39,8 +41,7 @@ abstract class ValidationService
         foreach ($errors as $error) {
             $field = $error->getPropertyPath();
 
-            $tempData->{'set'.ucfirst($field).'EnErreur'}(true);
-            $tempData->{'set'.ucfirst($field).'ErreurMessage'}($error->getMessage());
+            $tempData->addError($field, $error->getMessage());
         }
 
         return $base->reset();
