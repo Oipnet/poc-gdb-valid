@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Entity\Hydratable;
-use App\Entity\Tempable;
+use App\Entity\BaseData;
+use App\Entity\TempData;
 
 interface ValidationServiceInterface
 {
-    public function createTmpFromEntity(Tempable $entity): Hydratable;
+    public function createTmpFromEntity(BaseData $entity): TempData;
 
-    public function validate(Hydratable $demoTmp);
+    public function validate(TempData $demoTmp);
 }

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DemoRepository::class)]
 #[ApiResource]
-class Demo implements Tempable, Hydratable
+class Demo implements BaseData
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -50,15 +50,27 @@ class Demo implements Tempable, Hydratable
         return $this;
     }
 
-    public function reset()
+    public function reset(): self
     {
         $this->setFoo('');
+
+        return $this;
     }
 
-    public function hydrate($data): self
+    public function hydrate(TempData $data): self
     {
         $this->setFoo($data->getFoo());
 
         return $this;
+    }
+
+    public function getTmp(): ?TempData
+    {
+        return $this->getDemoTmp();
+    }
+
+    public function setTemp(?TempData $temp): self
+    {
+        return $this->setDemoTmp($temp);
     }
 }

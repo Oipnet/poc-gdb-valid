@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DemoTmpRepository::class)]
 #[ApiResource(itemOperations: [Request::METHOD_GET])]
-class DemoTmp implements Hydratable
+class DemoTmp implements TempData
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -98,9 +98,9 @@ class DemoTmp implements Hydratable
 
     /**
      * @param Demo $data
-     * @return Hydratable
+     * @return self
      */
-    public function hydrate($data): Hydratable
+    public function hydrate(BaseData $data): self
     {
         assert($data instanceof Demo);
 
@@ -111,5 +111,20 @@ class DemoTmp implements Hydratable
         $this->setDemo($data);
 
         return $this;
+    }
+
+    public function reset()
+    {
+        // TODO: Implement reset() method.
+    }
+
+    public function getBase(): ?BaseData
+    {
+        return $this->getDemo();
+    }
+
+    public function setBase(?BaseData $base): TempData
+    {
+        return $this->setDemo($base);
     }
 }
