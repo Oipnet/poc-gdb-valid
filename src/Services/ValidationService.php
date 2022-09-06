@@ -19,30 +19,30 @@ abstract class ValidationService
 
     abstract public function createTmpFromEntity(BaseData $entity): TempData;
 
-    public function validate(TempData $demoTmp, array $groups = ['Default']): BaseData
+    public function validate(TempData $tempData, array $groups = ['Default']): BaseData
     {
         /** @var  $errors */
-        $errors = $this->validator->validate($demoTmp, null, $groups);
+        $errors = $this->validator->validate($tempData, null, $groups);
 
-        $demo = $demoTmp->getBase();
+        $base = $tempData->getBase();
 
         if (!$errors->count()) {
-            $demo->hydrate($demoTmp)
+            $base->hydrate($tempData)
                 ->setTmp(null);
 
-            $this->em->remove($demoTmp);
+            $this->em->remove($tempData);
 
-            return $demo;
+            return $base;
         }
 
         /** @var ConstraintViolation $error */
         foreach ($errors as $error) {
             $field = $error->getPropertyPath();
 
-            $demoTmp->{'set'.ucfirst($field).'EnErreur'}(true);
-            $demoTmp->{'set'.ucfirst($field).'ErreurMessage'}($error->getMessage());
+            $tempData->{'set'.ucfirst($field).'EnErreur'}(true);
+            $tempData->{'set'.ucfirst($field).'ErreurMessage'}($error->getMessage());
         }
 
-        return $demo->reset();
+        return $base->reset();
     }
 }

@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DemoRepository::class)]
 #[ApiResource]
-class Demo implements BaseData
+class Demo extends AbstractBaseEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -47,24 +47,6 @@ class Demo implements BaseData
     public function setDemoTmp(?DemoTmp $demoTmp): self
     {
         $this->demoTmp = $demoTmp;
-
-        return $this;
-    }
-
-    public function reset(): self
-    {
-        foreach ($this->getFields() as $field) {
-            $this->{$field->getSetter()}($field->getDefault());
-        }
-
-        return $this;
-    }
-
-    public function hydrate(TempData $data): self
-    {
-        foreach ($this->getFields() as $field) {
-            $this->{$field->getSetter()}($data->{$field->getGetter()}());
-        }
 
         return $this;
     }

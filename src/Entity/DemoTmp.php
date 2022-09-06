@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Dto\Field;
 use App\Repository\DemoTmpRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DemoTmpRepository::class)]
 #[ApiResource(itemOperations: [Request::METHOD_GET])]
-class DemoTmp implements TempData
+class DemoTmp extends AbstractTmpEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -96,28 +97,6 @@ class DemoTmp implements TempData
         return $this;
     }
 
-    /**
-     * @param Demo $data
-     * @return self
-     */
-    public function hydrate(BaseData $data): self
-    {
-        assert($data instanceof Demo);
-
-        $this->setFoo($data->getFoo());
-        $this->setFooEnErreur(false);
-        $this->setFooErreurMessage(null);
-
-        $this->setDemo($data);
-
-        return $this;
-    }
-
-    public function reset()
-    {
-        // TODO: Implement reset() method.
-    }
-
     public function getBase(): ?BaseData
     {
         return $this->getDemo();
@@ -126,5 +105,12 @@ class DemoTmp implements TempData
     public function setBase(?BaseData $base): TempData
     {
         return $this->setDemo($base);
+    }
+
+    public function getFields(): array
+    {
+        return [
+            'foo' => new Field('getFoo', 'setFoo', '', 'setFooEnErreur', 'setFooErreurMessage'),
+        ];
     }
 }
