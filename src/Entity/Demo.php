@@ -69,7 +69,7 @@ class Demo implements BaseData
         return $this->getDemoTmp();
     }
 
-    public function setTemp(?TempData $temp): self
+    public function setTmp(?TempData $temp): self
     {
         return $this->setDemoTmp($temp);
     }
